@@ -1,0 +1,49 @@
+current_portfolio:
+  - ticker: DFUS
+    value: 431.88
+  - ticker: DFAI
+    value: 193.75
+  - ticker: AVEM
+    value: 77.66
+  - ticker: AVUV
+    value: 138.11
+  - ticker: AVDV
+    value: 77.13
+
+equities:
+  DFUS:
+    value_tilt: 0.02
+    is_value: false
+    region: US
+    fractional: false
+  DFAI:
+    value_tilt: 0.125
+    is_value: false
+    region: Developed
+    fractional: false
+  AVEM:
+    value_tilt: 0.25
+    is_value: true
+    region: Emerging
+    fractional: true
+  AVUV:
+    value_tilt: 1.0
+    is_value: true
+    region: US
+    fractional: true
+  AVDV:
+    value_tilt: 1.0
+    is_value: true
+    region: Developed
+    fractional: true
+
+target_regional_split:
+  US: 0.6341
+  Developed: 0.2588
+  Emerging: 0.1072
+
+target_value_split:
+  US: 0.2  # 20% AVUV, 80% DFUS
+  Developed: 0.2  # 20% AVDV, 80% DFAI
+  Emerging: 1.0  # 100% AVEM
+
