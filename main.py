@@ -20,6 +20,7 @@ if __name__ == "__main__":
     for region, proportion in regional_dist.items():
         print(f"\t{region} - {proportion:.2%}")
 
-    # current_portfolio.display()
-    # print()
-    current_portfolio.balance_with_infusion(550)
+    current_portfolio.display()
+
+    infusion_value = int(input("\n\nEnter infusion value: "))
+    current_portfolio.balance_with_infusion(infusion_value)

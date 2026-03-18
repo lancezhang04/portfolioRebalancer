@@ -2,8 +2,8 @@ import math
 
 from tabulate import tabulate
 
-from equity import Equity, Region
-from constants import TARGET_REGIONAL_SPLIT, TARGET_VALUE_SPLIT
+from equity import Equity
+from constants import TARGET_REGIONAL_SPLIT, TARGET_VALUE_SPLIT, Region
 
 
 class Position:
@@ -61,8 +61,9 @@ class Portfolio:
             Region.Developed: 0.0,
             Region.Emerging: 0.0,
         }
+        portfolio_value = self.value
         for position in self.positions.values():
-            dist[position.equity.region] += position.target_proportion
+            dist[position.equity.region] += position.value / portfolio_value
         return dist
 
     @property

@@ -4,6 +4,8 @@ from pydantic import BaseModel, ConfigDict
 import yfinance as yf
 from tqdm import tqdm
 
+from constants import Region
+
 
 class Ticker(Enum):
     DFUS = "DFUS"  # DFA U.S. index
@@ -11,12 +13,6 @@ class Ticker(Enum):
     AVEM = "AVEM"  # Avantis emerging markets index
     AVUV = "AVUV"  # Avantis American small cap value
     AVDV = "AVDV"  # Avantis international small cap value
-
-
-class Region(Enum):
-    US = "US"
-    Developed = "Developed"
-    Emerging = "Emerging"
 
 
 class Equity(BaseModel):
@@ -32,7 +28,6 @@ class Equity(BaseModel):
     region: Region
 
 
-# TODO: automatically retrieve share prices
 # TODO: estimate true value/size tilt based on regression (?)
 def load_equities():
     from constants import EQUITIES_DATA

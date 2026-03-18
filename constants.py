@@ -1,5 +1,9 @@
+from enum import Enum
+
 import yaml
-from equity import Region
+
+from market_split import get_global_market_split
+
 
 def load_config():
     with open("config.yaml", "r") as f:
@@ -9,9 +13,23 @@ config_data = load_config()
 
 EQUITIES_DATA = config_data["equities"]
 
+
+class Region(Enum):
+    US = "US"
+    Developed = "Developed"
+    Emerging = "Emerging"
+
+
+# TARGET_REGIONAL_SPLIT = {
+#     Region[k]: v for k, v in config_data["target_regional_split"].items()
+# }
+print("Retrieving global market split...")
 TARGET_REGIONAL_SPLIT = {
-    Region[k]: v for k, v in config_data["target_regional_split"].items()
+    Region[k]: v for k, v in get_global_market_split().items()
 }
+print("Global market split:")
+for region, proportion in TARGET_REGIONAL_SPLIT.items():
+    print(f"\t{region} - {proportion:.2%}")
 
 TARGET_VALUE_SPLIT = {
     Region[k]: v for k, v in config_data["target_value_split"].items()
