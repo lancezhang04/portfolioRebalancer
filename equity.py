@@ -16,7 +16,6 @@ class Ticker(Enum):
 
 
 class Equity(BaseModel):
-    # TODO: learn exactly what this does
     model_config = ConfigDict(frozen=True)
 
     ticker: Ticker
