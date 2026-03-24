@@ -12,6 +12,8 @@ if __name__ == "__main__":
     print()
     print(f"Current value tilt: {current_portfolio.value_tilt:.2%} ({current_portfolio.target_value_tilt:.2%} target)")
     print(f"Current size tilt: {current_portfolio.size_tilt:.2%} ({current_portfolio.target_size_tilt:.2%} target)")
+    print(f"Current profitability tilt: {current_portfolio.profitability_tilt:.2%} "
+          f"({current_portfolio.target_profitability_tilt:.2%} target)")
 
     print()
     regional_dist = current_portfolio.regional_distribution()
