@@ -3,7 +3,7 @@ import math
 from tabulate import tabulate
 
 from equity import Equity
-from constants import Region
+from constants import Region, FACTOR_PREMIUMS
 
 
 class Position:
@@ -26,7 +26,10 @@ class Portfolio:
 
     def __init__(self, positions: list[Position]):
         super().__init__()
-        self.positions = {position.equity: position for position in positions if position.target_proportion > 0.0}
+        self.positions = {
+            position.equity: position for position in positions
+            if position.target_proportion > 0.0 or position.value > 0.0
+        }
 
     @property
     def value(self) -> float:
@@ -131,29 +134,18 @@ class Portfolio:
         data = dict()
         for pos in self.positions.values():
             data[pos.equity] = {
-                "Ticker": str(pos.equity.ticker) + ("*" if not pos.equity.fractional else ""),
-                "Est. Value Loading": f"{pos.equity.value_loading:.2%}",
+                "Ticker": pos.equity.ticker.value + ("*" if not pos.equity.fractional else ""),
                 "Price": str(pos.equity.share_price),
                 "Shares": f"{pos.value / pos.equity.share_price:.2f}",
-                "Current Value": f"{pos.value:.2f}",
-                "Target Value": f"{pos.target_proportion * self.value:.2f}",
+                "Value": f"{pos.value:.2f}",
                 "Current %": f"{pos.value / self.value:.2%}",
                 "Target %": f"{pos.target_proportion:.2%}",
                 "Drift": f"{(pos.value / self.value) - pos.target_proportion:.2%}",
             }
         return data
 
-    def display(self) -> None:
-        # TODO: Consider adding regional composition and estimated loading %
-        data = self.format_data()
-        print(f"\nPortfolio Total Value: ${self.value:,.2f}")
-        print(tabulate(data.values(), headers='keys', tablefmt='grid', showindex=False))
-        print("* No fractional shares")
-
-    def display_loadings(self) -> None:
-        from constants import FACTOR_PREMIUMS
-
-        loadings_data = [
+    def format_loadings_data(self) -> list[list]:
+        return [
             [
                 "Rm-Rf",
                 self.market_loading,
@@ -191,16 +183,27 @@ class Portfolio:
             ],
         ]
 
+
+    def display(self) -> None:
+        # TODO: Consider adding regional composition and estimated loading %
+        data = self.format_data()
+        print(f"\nPortfolio Value: ${self.value:,.2f}")
+        print(f"Active Share: {self.active_share:.2%}")
+        print(tabulate(data.values(), headers='keys', tablefmt='grid', showindex=False))
+        print("* No fractional shares")
+
+    def display_loadings(self) -> None:
+        loadings_data = self.format_loadings_data()
         total_portfolio_premium = sum(row[4] for row in loadings_data)
 
-        print(f"\nEstimated Portfolio Factor Loadings and Return")
+        print(f"\nEstimated Portfolio Factor Loadings")
         print(tabulate(
             loadings_data,
             headers=["Factor", "Loading", "Target Loading", "Est. Factor Premium", "Est. Portfolio Premium"],
             tablefmt='grid',
             floatfmt=".4f"
         ))
-        # print(f"Total Est. Portfolio Premium: {total_portfolio_premium:.2%}")
+        print(f"Est. Excess Premium: {total_portfolio_premium - FACTOR_PREMIUMS['Rm-Rf']:.2%}")
 
         real_er = 0.002 / (1 + FACTOR_PREMIUMS["inflation"])  # TODO: confirm this is the correct calculation, add to config
         arithmetic_return = total_portfolio_premium + FACTOR_PREMIUMS["Rf"] - real_er
@@ -208,16 +211,19 @@ class Portfolio:
         geometric_return = arithmetic_return - FACTOR_PREMIUMS["vol"] ** 2 / 2
         nominal_geometric_return = (1 + geometric_return) * (1 + FACTOR_PREMIUMS["inflation"]) - 1
 
-        print("\n Estimated Expected Returns")
+        print("\nEstimated Expected Returns")
         print(tabulate(
             [
-                ["Arithmetic Return", arithmetic_return, nominal_arithmetic_return],
-                ["Geometric Return", geometric_return, nominal_geometric_return],
+                ["Est. Arithmetic Return", nominal_arithmetic_return, arithmetic_return],
+                ["Est. Geometric Return", nominal_geometric_return, geometric_return],
             ],
-            headers=["", "Real", "Nominal"],
+            headers=["", "Nominal", "Real"],
             tablefmt='grid',
             floatfmt=".2%"
         ))
+        print(f"*Assuming {FACTOR_PREMIUMS['inflation']:.2%} inflation, "
+              f"{FACTOR_PREMIUMS['vol']:.2%} portfolio volatility, "
+              f"{FACTOR_PREMIUMS['Rf']:.2%} risk free real return")
 
 
     def balance_with_infusion(self, infusion: float) -> None:
@@ -265,5 +271,4 @@ class Portfolio:
 
         print()
         print(tabulate(data.values(), headers='keys', tablefmt='grid', showindex=False))
-        # print(f"Total adjustment: {total_adjustment:,.2f} | {cancelled:,.2f} cancelled")
         print(f"Total infusion: {sum(position.difference for position in self.positions.values()):,.2f}")

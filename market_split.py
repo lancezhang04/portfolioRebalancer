@@ -1,11 +1,12 @@
 import json
-import os
 from pathlib import Path
 
 import pandas as pd
 import requests
 import io
 
+# Note that South Korea is considered an emerging market by DFA/Avantis
+# TODO: consider extracting to config.yaml
 EMERGING_COUNTRIES = [
     'Taiwan', 'Korea (South)', 'China', 'India', 'Brazil',
     'Saudi Arabia', 'South Africa', 'Mexico',
@@ -31,16 +32,13 @@ MARKET_SPLIT_CACHE = CACHE_DIR / "market_split.json"
 
 
 def _fetch_market_split():
-    """Fetch market split from iShares ACWI ETF holdings."""
     # iShares URL for MSCI ACWI ETF daily holdings
     url = "https://www.ishares.com/us/products/239600/ishares-msci-acwi-etf/1467271812596.ajax?fileType=csv&fileName=ACWI_holdings&dataType=fund"
     headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'}
     response = requests.get(url, headers=headers)
 
     df = pd.read_csv(io.StringIO(response.text), skiprows=9)
-    # Excludes metadata headers
     df = df.dropna(subset=['Weight (%)', 'Location'])
-    # Excludes unsettled cash entries
     df = df[df["Asset Class"] == "Equity"]
     df['Weight (%)'] = pd.to_numeric(df['Weight (%)'], errors='coerce')
 
@@ -64,7 +62,6 @@ def _fetch_market_split():
 
 
 def get_global_market_split(use_cache: bool = False):
-    """Get global market split, optionally using cached data."""
     if use_cache and MARKET_SPLIT_CACHE.exists():
         with open(MARKET_SPLIT_CACHE, 'r') as f:
             return json.load(f)

@@ -28,17 +28,17 @@ if __name__ == "__main__":
     ])
 
     print()
-    current_portfolio.display_loadings()
+    current_portfolio.display()
 
     print()
+    # TODO: extract into method
     regional_dist = current_portfolio.regional_distribution()
     print("Regional distribution:")
     for region, proportion in regional_dist.items():
-        print(f"\t{region} - {proportion:.2%} ({TARGET_REGIONAL_SPLIT[region]:.2%} target)")
+        print(f"\t{region.value} - {proportion:.2%} ({TARGET_REGIONAL_SPLIT[region]:.2%} target)")
 
     print()
-    print(f"Active share: {current_portfolio.active_share:.2%}")
-    current_portfolio.display()
+    current_portfolio.display_loadings()
 
     while True:
         infusion_value = float(input("\n\nEnter infusion value: "))
