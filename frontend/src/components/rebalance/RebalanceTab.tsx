@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { portfolioApi } from '../../services/api';
 import { useConfigStore } from '../../store/configStore';
@@ -7,7 +7,7 @@ import { RebalanceResult } from '../../types/portfolio';
 
 export const RebalanceTab = () => {
   const { useCache } = useConfigStore();
-  const [infusion, setInfusion] = useState<string>('');
+  const [infusion, setInfusion] = useState<string>('0');
   const [result, setResult] = useState<RebalanceResult | null>(null);
 
   const rebalanceMutation = useMutation({
@@ -18,9 +18,13 @@ export const RebalanceTab = () => {
     },
   });
 
+  useEffect(() => {
+    rebalanceMutation.mutate(0);
+  }, []);
+
   const handleCalculate = () => {
     const amount = parseFloat(infusion);
-    if (!isNaN(amount) && amount > 0) {
+    if (!isNaN(amount) && amount >= 0) {
       rebalanceMutation.mutate(amount);
     }
   };

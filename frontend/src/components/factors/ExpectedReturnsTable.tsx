@@ -46,7 +46,7 @@ export const ExpectedReturnsTable = ({
             <td className="px-4 py-3 whitespace-nowrap text-sm text-slate-100 text-right">
               {formatPercent(expectedReturns.nominal_geometric)}
             </td>
-            <td className="px-4 py-3 whitespace-nowrap text-sm text-slate-100 text-right">
+            <td className="px-4 py-3 whitespace-nowrap text-sm font-semibold text-right" style={{ color: '#f59e0b' }}>
               {formatPercent(expectedReturns.real_geometric)}
             </td>
           </tr>

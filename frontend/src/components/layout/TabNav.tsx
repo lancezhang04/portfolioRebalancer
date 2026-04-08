@@ -1,7 +1,7 @@
 import { useConfigStore } from '../../store/configStore';
 
 const tabs = [
-  { id: 'holdings', label: 'Holdings & Regional' },
+  { id: 'holdings', label: 'Holdings & Overview' },
   { id: 'factors', label: 'Factors & Returns' },
   { id: 'targets', label: 'Portfolio Targets' },
   { id: 'rebalance', label: 'Rebalance Calculator' },

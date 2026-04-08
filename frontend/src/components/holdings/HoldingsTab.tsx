@@ -1,7 +1,7 @@
 import { usePortfolio, useRegionalDistribution } from '../../hooks/usePortfolio';
 import { useConfigStore } from '../../store/configStore';
 import { HoldingsTable } from './HoldingsTable';
-import { RegionalChart } from './RegionalChart';
+import { PortfolioOverview } from './RegionalChart';
 
 export const HoldingsTab = () => {
   const { useCache } = useConfigStore();
@@ -35,7 +35,7 @@ export const HoldingsTab = () => {
       </div>
 
       <div className="bg-slate-800 shadow-lg shadow-slate-900/50 rounded-lg p-6">
-        <RegionalChart distributions={regionalDistribution} />
+        <PortfolioOverview distributions={regionalDistribution} portfolio={portfolio} />
       </div>
     </div>
   );

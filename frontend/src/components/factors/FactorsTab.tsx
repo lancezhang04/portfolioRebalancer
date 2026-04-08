@@ -3,6 +3,7 @@ import { useConfigStore } from '../../store/configStore';
 import { FactorLoadingsTable } from './FactorLoadingsTable';
 import { ExpectedReturnsTable } from './ExpectedReturnsTable';
 import { AssumptionsPanel } from './AssumptionsPanel';
+import { ReturnComparisonChart } from './ReturnComparisonChart';
 
 export const FactorsTab = () => {
   const { useCache } = useConfigStore();
@@ -26,7 +27,7 @@ export const FactorsTab = () => {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-      <div className="lg:col-span-2">
+      <div className="lg:col-span-2 min-h-0">
         <AssumptionsPanel />
       </div>
 
@@ -43,6 +44,10 @@ export const FactorsTab = () => {
 
         <div className="bg-slate-800 shadow-lg shadow-slate-900/50 rounded-lg p-6">
           <ExpectedReturnsTable expectedReturns={factorAnalysis.expected_returns} />
+        </div>
+
+        <div className="bg-slate-800 shadow-lg shadow-slate-900/50 rounded-lg p-6">
+          <ReturnComparisonChart factorAnalysis={factorAnalysis} />
         </div>
       </div>
     </div>

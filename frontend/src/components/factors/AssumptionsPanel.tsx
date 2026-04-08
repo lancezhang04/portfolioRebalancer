@@ -46,9 +46,9 @@ export const AssumptionsPanel = () => {
   ];
 
   return (
-    <div className="bg-slate-800 shadow-lg shadow-slate-900/50 rounded-lg p-6">
+    <div className="bg-slate-800 shadow-lg shadow-slate-900/50 rounded-lg p-6 flex flex-col h-full min-h-0">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold text-slate-100">Factor Assumptions</h2>
+        <h2 className="text-xl font-semibold text-slate-100">Parameters</h2>
         {hasChanges && (
           <div className="flex gap-2">
             <button
@@ -68,7 +68,7 @@ export const AssumptionsPanel = () => {
         )}
       </div>
 
-      <div className="space-y-4 max-h-96 overflow-y-auto">
+      <div className="space-y-4 flex-1 overflow-y-auto">
         {premiumFields.map(({ key, label, description }) => (
           <div key={key} className="border-b border-slate-700 pb-3">
             <label className="block text-sm font-medium text-slate-200 mb-1">
