@@ -46,18 +46,38 @@ def calculate_core_satellite_split(
 
 
 def fetch_stock_prices(tickers: list[str]) -> Dict[str, float]:
-    """Fetch stock prices from yfinance."""
-    prices = {}
+    """Fetch stock prices from yfinance using batch download (more reliable on servers)."""
+    prices = {t: 0.0 for t in tickers}
     print(f"\n=== Fetching prices for {len(tickers)} tickers ===")
 
-    for i, ticker_str in enumerate(tickers):
-        try:
-            price = yf.Ticker(ticker_str).info["regularMarketPrice"]
-            prices[ticker_str] = float(price)
-            print(f"  {ticker_str}: ${prices[ticker_str]:.2f}")
-        except Exception as e:
-            print(f"  {ticker_str}: Error - {e}")
-            prices[ticker_str] = 0.0
+    try:
+        # Batch download is more reliable than individual .info calls
+        data = yf.download(tickers, period="5d", progress=False)
+        if not data.empty:
+            # Get the last available closing price for each ticker
+            close = data["Close"]
+            for ticker_str in tickers:
+                try:
+                    col = close[ticker_str] if len(tickers) > 1 else close
+                    last_price = col.dropna().iloc[-1]
+                    prices[ticker_str] = float(last_price)
+                    print(f"  {ticker_str}: ${prices[ticker_str]:.2f}")
+                except Exception as e:
+                    print(f"  {ticker_str}: Error extracting price - {e}")
+        else:
+            print("  WARNING: yf.download returned empty DataFrame")
+    except Exception as e:
+        print(f"  WARNING: Batch download failed ({e}), trying individual fetches")
+        for ticker_str in tickers:
+            try:
+                hist = yf.Ticker(ticker_str).history(period="5d")
+                if not hist.empty:
+                    prices[ticker_str] = float(hist["Close"].iloc[-1])
+                    print(f"  {ticker_str}: ${prices[ticker_str]:.2f}")
+                else:
+                    print(f"  {ticker_str}: No history data")
+            except Exception as e2:
+                print(f"  {ticker_str}: Error - {e2}")
 
     return prices
 
