@@ -3,3 +3,6 @@ __pycache__
 .idea
 .cache
 .claude
+node_modules
+venv
+/frontend/dist
