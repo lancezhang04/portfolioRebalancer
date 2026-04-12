@@ -92,7 +92,7 @@ export const HoldingsTab = () => {
   const handleTemplateChange = (templateKey: string) => {
     if (templateKey === 'custom') {
       setSelectedTemplate('custom');
-      setEditedHoldings([]);
+      setEditedHoldings(null);
       setEditedSharesRaw({});
       setEditedVol(0.20);
       updatePortfolioMutation.mutate({ holdings: [], vol: 0.20 });
@@ -123,15 +123,17 @@ export const HoldingsTab = () => {
   const handleSharesBlur = () => {
     const holdings = editedHoldings ?? workingHoldings;
     pushToBackend(holdings);
+    setEditedHoldings(null);
     setEditedSharesRaw({});
   };
 
   const handleRemoveTicker = (ticker: string) => {
     const base = editedHoldings ?? workingHoldings;
     const updated = base.filter((h) => h.ticker !== ticker);
-    setEditedHoldings(updated);
     setSelectedTemplate('custom');
     pushToBackend(updated);
+    setEditedHoldings(null);
+    setEditedSharesRaw({});
   };
 
   const handleAddTicker = () => {
@@ -150,12 +152,12 @@ export const HoldingsTab = () => {
 
     const base = editedHoldings ?? [...workingHoldings];
     const updated = [...base, { ticker: newTickerValue, shares }];
-    setEditedHoldings(updated);
     setSelectedTemplate('custom');
     setAddingTicker(false);
     setNewTickerValue('');
     setNewSharesValue('');
     pushToBackend(updated);
+    setEditedHoldings(null);
   };
 
   const handleCancelAdd = () => {
