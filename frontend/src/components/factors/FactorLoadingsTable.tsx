@@ -13,7 +13,8 @@ export const FactorLoadingsTable = ({
 }: FactorLoadingsTableProps) => {
   const totalPortfolioPremium = loadings.reduce((sum, row) => sum + row.portfolio_premium, 0);
   return (
-    <div className="overflow-x-auto">
+    <div>
+      <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-slate-700">
         <thead className="bg-slate-700">
           <tr>
