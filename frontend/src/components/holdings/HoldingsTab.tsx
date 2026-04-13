@@ -371,17 +371,17 @@ export const HoldingsTab = () => {
               )}
             </tbody>
           </table>
-          <div className="mt-2 flex justify-between items-center">
-            <p className="text-xs text-slate-400">* No fractional shares</p>
-            {!addingTicker && availableTickers.length > 0 && (
-              <button
-                onClick={handleAddTicker}
-                className="px-2 py-0.5 text-sm text-blue-400 hover:text-blue-300"
-              >
-                + Add Ticker
-              </button>
-            )}
-          </div>
+        </div>
+        <div className="mt-2 flex justify-between items-center">
+          <p className="text-xs text-slate-400">* No fractional shares</p>
+          {!addingTicker && availableTickers.length > 0 && (
+            <button
+              onClick={handleAddTicker}
+              className="px-2 py-0.5 text-sm text-blue-400 hover:text-blue-300"
+            >
+              + Add Ticker
+            </button>
+          )}
         </div>
       </div>
 
