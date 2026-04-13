@@ -184,10 +184,10 @@ export const RebalanceTab = () => {
                   ))}
                 </tbody>
               </table>
-              <p className="mt-2 text-xs text-slate-400">
-                * No fractional shares - error redistributed to fractional positions
-              </p>
             </div>
+            <p className="mt-2 text-xs text-slate-400">
+              * No fractional shares - error redistributed to fractional positions
+            </p>
           </div>
         </>
       )}
