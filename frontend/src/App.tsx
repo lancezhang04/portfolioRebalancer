@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Dashboard } from './components/layout/Dashboard';
 import { HomePage } from './components/layout/HomePage';
+import { WorkoutPage } from './components/workout/WorkoutPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,6 +26,7 @@ function App() {
             </QueryClientProvider>
           }
         />
+        <Route path="/workout" element={<WorkoutPage />} />
       </Routes>
     </BrowserRouter>
   );
