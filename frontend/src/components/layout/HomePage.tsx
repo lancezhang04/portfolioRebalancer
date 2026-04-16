@@ -39,8 +39,29 @@ export const HomePage = () => {
             </a>
           </div>
 
+          {/* Workout Routine card */}
+          <div className="bg-slate-800/80 shadow-lg shadow-slate-900/50 rounded-lg p-6 flex flex-col gap-4 min-h-[227px] border-l-4 border-amber-500/70">
+            <div>
+              <h2 className="text-xl font-semibold text-slate-100 mb-2 flex items-center gap-2">
+                Workout Routine
+                <span className="text-[10px] font-medium bg-amber-900/50 text-amber-400 px-1.5 py-0.5 rounded uppercase tracking-wider">WIP</span>
+              </h2>
+              <p className="text-sm text-slate-400 leading-relaxed">
+                My weekly training split optimized for longevity and muscle
+                growth. Includes exercise demos, muscle activation ratings,
+                and methodology notes.
+              </p>
+            </div>
+            <a
+              href="/workout"
+              className="mt-auto inline-block px-4 py-2 text-sm font-medium bg-amber-600 text-white rounded-md hover:bg-amber-700 text-center transition-colors"
+            >
+              View Routine →
+            </a>
+          </div>
+
           {/* Placeholder cards */}
-          {Array.from({ length: 5 }).map((_, i) => (
+          {Array.from({ length: 4 }).map((_, i) => (
             <div
               key={i}
               className="rounded-lg p-6 border-2 border-dashed border-slate-600/50 flex items-center justify-center min-h-[227px]"
