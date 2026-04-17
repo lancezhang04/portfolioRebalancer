@@ -53,7 +53,9 @@ export const DaySelector = ({ selected, onSelect }: DaySelectorProps) => {
                 relative flex-shrink-0 px-4 sm:px-5 py-2 rounded-full text-sm font-medium
                 transition-all duration-200
                 ${isSelected
-                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
+                  ? isToday
+                    ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/30'
+                    : 'bg-blue-600 text-white shadow-lg shadow-blue-600/30'
                   : 'bg-slate-800/60 text-slate-400 hover:bg-slate-700 hover:text-slate-200'
                 }
               `}
@@ -61,7 +63,7 @@ export const DaySelector = ({ selected, onSelect }: DaySelectorProps) => {
               <span className="sm:hidden">{SHORT[i]}</span>
               <span className="hidden sm:inline">{day}</span>
               {isToday && !isSelected && (
-                <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-blue-400 rounded-full" />
+                <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-amber-400 rounded-full" />
               )}
             </button>
           );
