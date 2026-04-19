@@ -31,7 +31,7 @@ const TYPE_STYLES: Record<IntervalType, { bar: string; dot: string }> = {
   work:     { bar: 'bg-red-500',     dot: 'bg-red-400'     },
   moderate: { bar: 'bg-amber-500',   dot: 'bg-amber-400'   },
   rest:     { bar: 'bg-slate-600',   dot: 'bg-slate-500'   },
-  cooldown: { bar: 'bg-slate-700',   dot: 'bg-slate-600'   },
+  cooldown: { bar: 'bg-blue-600',    dot: 'bg-blue-500'    },
 };
 
 const TYPE_LABEL: Record<IntervalType, string> = {
@@ -59,22 +59,22 @@ const PROTOCOLS: HIITProtocol[] = [
     subtitle: 'VO₂max Builder',
     description:
       '4 rounds of 4-minute high-intensity intervals at 90–95% max HR, separated by 3 minutes of active recovery. Developed by NTNU researchers and one of the most evidence-backed protocols for improving cardiovascular fitness and longevity.',
-    totalTime: '~28 min',
+    totalTime: '~33 min',
     intensity: 'Very High',
     intervals: [
       { label: 'Warm-up',   duration: 600, type: 'warmup'             },
       { label: 'Interval',  duration: 240, type: 'work',   repeat: 4  },
-      { label: 'Recovery',  duration: 180, type: 'rest',   repeat: 3  },
+      { label: 'Recovery',  duration: 240, type: 'rest',   repeat: 3  },
       { label: 'Cool-down', duration: 300, type: 'cooldown'            },
     ],
     sequence: [
       { duration: 600, type: 'warmup'   },
       { duration: 240, type: 'work'     },
-      { duration: 180, type: 'rest'     },
+      { duration: 240, type: 'rest'     },
       { duration: 240, type: 'work'     },
-      { duration: 180, type: 'rest'     },
+      { duration: 240, type: 'rest'     },
       { duration: 240, type: 'work'     },
-      { duration: 180, type: 'rest'     },
+      { duration: 240, type: 'rest'     },
       { duration: 240, type: 'work'     },
       { duration: 300, type: 'cooldown' },
     ],
